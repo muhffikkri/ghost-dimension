@@ -1,24 +1,39 @@
-// Nama File : Environment.h
-// Deskripsi : Deklarasi fungsi lingkungan, rendering maze, tekstur, dan pencahayaan.
-// Tanggal Dibuat : 24 Maret 2026
-
-// World & Assets
-
 #ifndef ENVIRONMENT_H
 #define ENVIRONMENT_H
-
 #include <GL/glut.h>
 
-// TODO: Implementasi fungsi Draw Walls menggunakan Primitif 
-void drawMaze(); 
+/*
+    Environment.h  -  Deklarasi semua fungsi dan variabel global
+    dari Environment.cpp. Include di main.cpp dan file lain.
+*/
 
-// TODO: Implementasi Texture Mapping untuk dinding dan lantai 
-void loadTextures(); 
+/* Tekstur */
+extern GLuint g_texWall;
+extern GLuint g_texFloor;
 
-// TODO: Setup Lighting untuk Senter (Spotlight) dan Obor (Point Light) 
-void setupLighting(); 
+/* Waktu animasi */
+extern float g_time;
 
-// TODO: Implementasi bayangan sederhana (Shadows) 
-void drawShadows();
+/* Kamera (di-set main.cpp setiap frame sebelum render) */
+extern float camX, camY, camZ;
+extern float lookX, lookY, lookZ;
+
+/* Inisialisasi */
+void initEnvironment();
+
+/* Render utama */
+void renderEnvironment();
+
+/* Objek individual */
+void drawWallCube(flo   at wx, float wz, float S, float WH);
+void drawTexturedFloor(float x, float z, float s);
+void drawTorchFlame(float flickVal);
+void drawTorch(float x, float y, float z, int id);
+
+/* Lighting */
+void setupFlashlight();
+
+/* Atmosfer */
+void setupFog();
 
 #endif

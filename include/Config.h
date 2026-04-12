@@ -5,6 +5,16 @@
 #ifndef CONFIG_H
 #define CONFIG_H
 
+
+//Maze settings
+const int MAZE_WIDTH = 11;
+const int MAZE_HEIGHT = 11;
+const int MAZE_COLS = 11;
+const int MAZE_ROWS = 11;
+
+//map data
+extern int mazeMatrix[MAZE_ROWS][MAZE_COLS];
+
 // Screen Settings
 const int WINDOW_WIDTH = 800;
 const int WINDOW_HEIGHT = 600;
@@ -19,8 +29,6 @@ extern bool isGhostTriggered;
 // TODO: Tambahkan konstanta untuk kecepatan gerak dan sensitivitas mouse
 // TODO: Tambahkan threshold jarak untuk trigger munculnya hantu
 
-// Map Data
-extern int maze[10][10];
 
 // Constants (Bisa langsung di header karena 'const')
 const float PLAYER_SPEED = 0.1f;
