@@ -1,17 +1,17 @@
-# Project: maze-runner
+# Project: environment
 # Makefile created by Dev-C++ 5.7.1
 
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = Camera.o Config.o Entity.o Environment.o main.o
-LINKOBJ  = Camera.o Config.o Entity.o Environment.o main.o
-LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -lopengl32 -lglu32 -lglut32
-INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Users/DESKTOP/Desktop/maze-runner/include"
-CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"C:/Users/DESKTOP/Desktop/maze-runner/include"
-BIN      = maze-runner.exe
+OBJ      = config.o Environment.o main.o
+LINKOBJ  = config.o Environment.o main.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -lglut32 -lopengl32 -lglu32 -mwindows -lglut32 -lglu32 -lopengl32 -lwinmm -lgdi32
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++"
+BIN      = environment1.exe
 CXXFLAGS = $(CXXINCS) 
-CFLAGS   = $(INCS) 
+CFLAGS   = $(INCS) -DGLUT_STATIC
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -24,14 +24,8 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-Camera.o: Camera.cpp
-	$(CPP) -c Camera.cpp -o Camera.o $(CXXFLAGS)
-
-Config.o: Config.cpp
-	$(CPP) -c Config.cpp -o Config.o $(CXXFLAGS)
-
-Entity.o: Entity.cpp
-	$(CPP) -c Entity.cpp -o Entity.o $(CXXFLAGS)
+config.o: config.cpp
+	$(CPP) -c config.cpp -o config.o $(CXXFLAGS)
 
 Environment.o: Environment.cpp
 	$(CPP) -c Environment.cpp -o Environment.o $(CXXFLAGS)
