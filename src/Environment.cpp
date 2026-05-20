@@ -111,10 +111,10 @@ void setupFlashlight() {
     GLfloat pos[4] = { camX, camY, camZ, 1.0f };
     GLfloat dir[3] = { lookX-camX, lookY-camY, lookZ-camZ };
 
-    /* Ambient = 0 supaya area di luar cone benar-benar gelap */
-    GLfloat amb[]  = { 1.0f, 1.0f, 1.0f, 1.0f };
-    /* Diffuse terang supaya cone jelas terlihat */
-    GLfloat diff[] = { 8.0f, 7.5f, 6.5f, 1.0f };
+    /* Extremely dark ambient for horror atmosphere */
+    GLfloat amb[]  = { AMBIENT_BRIGHTNESS, AMBIENT_BRIGHTNESS, AMBIENT_BRIGHTNESS, 1.0f };
+    /* Bright diffuse for clear cone */
+    GLfloat diff[] = { 1.0f, 1.0f, 0.95f, 1.0f };
     GLfloat spec[] = { 1.0f, 1.0f, 0.9f, 1.0f };
 
     glLightfv(GL_LIGHT0, GL_POSITION,       pos);
@@ -123,8 +123,8 @@ void setupFlashlight() {
     glLightfv(GL_LIGHT0, GL_DIFFUSE,        diff);
     glLightfv(GL_LIGHT0, GL_SPECULAR,       spec);
 
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF,          FLASHLIGHT_CUTOFF); /* sudut setengah cone */
-    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT,         8.0f); /* makin besar = tepi makin tajam */
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF,          FLASHLIGHT_CUTOFF); /* narrow cone for horror */
+    glLightf(GL_LIGHT0, GL_SPOT_EXPONENT,        32.0f); /* sharp edge */
     glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0f);
     glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0f);
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.05f);
@@ -372,8 +372,8 @@ void initEnvironment() {
     glEnable(GL_NORMALIZE);
     glShadeModel(GL_SMOOTH);
 
-    /* Ambient global sangat gelap supaya area di luar spotlight benar gelap */
-    GLfloat gAmb[] = { 0.12f, 0.08f, 0.06f, 1.0f };
+/* Ambient global sangat gelap supaya area di luar spotlight benar gelap */
+    GLfloat gAmb[] = { AMBIENT_BRIGHTNESS, AMBIENT_BRIGHTNESS, AMBIENT_BRIGHTNESS, 1.0f };
     glLightModelfv(GL_LIGHT_MODEL_AMBIENT, gAmb);
     glLightModeli(GL_LIGHT_MODEL_LOCAL_VIEWER, GL_TRUE);
     glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,     GL_TRUE);
@@ -439,8 +439,8 @@ void drawVolumetricSpotlight() {
 
 /* ===================== RENDER DUNIA ===================== */
 void renderEnvironment() {
-    const float S  = MAZE_CELL_SIZE;  /* ukuran tiap cell maze dalam world unit */
-    const float WH = 2.5f;  /* tinggi dinding */
+    const float S  = TILE_SIZE;        /* ukuran tiap cell maze dalam world unit */
+    const float WH = WALL_HEIGHT;      /* tinggi dinding */
 
     /* Pass 1: Gambar lantai semua cell */
     for (int i = 0; i < MAZE_HEIGHT; i++)
@@ -493,7 +493,7 @@ void drawMinimap() {
     const int   MMAP_H = MAZE_HEIGHT * CELL;
     const int   ORIG_X = winW - MMAP_W - MARGIN;
     const int   ORIG_Y = winH - MMAP_H - MARGIN;
-    const float S      = MAZE_CELL_SIZE;
+    const float S      = TILE_SIZE;
 
     /* Switch ke 2D orthographic untuk HUD */
     glDisable(GL_LIGHTING);

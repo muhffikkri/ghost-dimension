@@ -21,11 +21,37 @@ enum AppMode {
 
 static AppMode g_mode = MODE_GAME;
 
+static void resetPlayerSpawn() {
+    int row = 1;
+    int col = 1;
+
+    if (mazeMatrix[row][col] != 0) {
+        bool found = false;
+        for (int r = 0; r < MAZE_HEIGHT && !found; r++) {
+            for (int c = 0; c < MAZE_WIDTH; c++) {
+                if (mazeMatrix[r][c] == 0) {
+                    row = r;
+                    col = c;
+                    found = true;
+                    break;
+                }
+            }
+        }
+    }
+
+    playerCam.x = (col + 0.5f) * TILE_SIZE;
+    playerCam.z = (row + 0.5f) * TILE_SIZE;
+    playerCam.y = 1.6f;
+    playerCam.angle = 0.0f;
+    playerCam.pitch = 0.0f;
+    playerCam.bobbingTimer = 0.0f;
+}
+
 static void clearGameInput() {
-    playerCam.moveUp = false;
-    playerCam.moveDown = false;
-    playerCam.moveLeft = false;
-    playerCam.moveRight = false;
+    playerCam.moveW = false;
+    playerCam.moveA = false;
+    playerCam.moveS = false;
+    playerCam.moveD = false;
     playerCam.lookUp = false;
     playerCam.lookDown = false;
     playerCam.lookLeft = false;
@@ -161,7 +187,6 @@ static void displayGame() {
     drawMinimap();
 
     syncPlayerPosition(playerCam.x, playerCam.z);
-    updateItems();
     drawHUD();
     drawModeBanner("MODE: GAME (F1=GAME | F2=ENV DEMO | F3=ENTITY DEMO)");
 }
@@ -224,11 +249,15 @@ static void timer(int v) {
     lastTime = now;
 
     if (g_mode == MODE_GAME) {
-        playerCam.handleInput(dt);
-        updateGhost(playerCam.x, playerCam.z);
+        if (!isGameOver && !isGameWin) {
+            playerCam.handleInput(dt);
+            playerCam.update(dt);  // NEW: Update with delta time for bobbing
+            updateGhost(playerCam.x, playerCam.z);
+            updateItems();
+            checkGameStatus();
+        }
     }
 
-    // TODO: Update semua logika game (Ghost AI, Collision) setiap frame
     glutPostRedisplay();
     glutTimerFunc(1000/60, timer, 0);
 }
@@ -285,10 +314,23 @@ static void keyboard(unsigned char key, int x, int y) {
         }
     } else {
         switch (key) {
-            case 'w': case 'W': playerCam.moveUp = true; break;
-            case 's': case 'S': playerCam.moveDown = true; break;
-            case 'a': case 'A': playerCam.moveLeft = true; break;
-            case 'd': case 'D': playerCam.moveRight = true; break;
+            case 'w': case 'W': playerCam.moveW = true; break;
+            case 's': case 'S': playerCam.moveS = true; break;
+            case 'a': case 'A': playerCam.moveA = true; break;
+            case 'd': case 'D': playerCam.moveD = true; break;
+            
+            // NEW: Restart on 'R'
+            case 'r': case 'R':
+                if (isGameOver || isGameWin) {
+                    isGameOver = false;
+                    isGameWin = false;
+                    score = 0;
+                    hasKey = false;
+                    isGhostTriggered = false;
+                    resetPlayerSpawn();
+                    initEntities();
+                }
+                break;
         }
     }
 }
@@ -301,10 +343,10 @@ static void keyboardUp(unsigned char key, int x, int y) {
     }
 
     switch (key) {
-        case 'w': case 'W': playerCam.moveUp = false; break;
-        case 's': case 'S': playerCam.moveDown = false; break;
-        case 'a': case 'A': playerCam.moveLeft = false; break;
-        case 'd': case 'D': playerCam.moveRight = false; break;
+        case 'w': case 'W': playerCam.moveW = false; break;
+        case 's': case 'S': playerCam.moveS = false; break;
+        case 'a': case 'A': playerCam.moveA = false; break;
+        case 'd': case 'D': playerCam.moveD = false; break;
     }
 }
 

@@ -7,12 +7,12 @@
 #include <GL/glut.h>
 #include <math.h>
 
-static const float kTileSize          = MAZE_CELL_SIZE;
-static const float kPlayerRadius      = 0.35f;
-static const float kPickupRadius      = 0.6f;
-static const float kGhostTriggerDist  = 6.0f;
-static const float kGhostCatchRadius  = 0.8f;
-static const float kWinRadius         = 0.8f;
+static const float kTileSize          = TILE_SIZE;
+static const float kPlayerRadius      = PLAYER_COLLISION_RADIUS;
+static const float kPickupRadius      = COIN_PICKUP_RADIUS;
+static const float kGhostTriggerDist  = GHOST_TRIGGER_DISTANCE;
+static const float kGhostCatchRadius  = GHOST_CATCH_DISTANCE;
+static const float kWinRadius         = 1.0f;
 
 static Coin  g_coins[MAX_COINS];
 static int   g_numCoins = 0;
@@ -159,7 +159,7 @@ void updateItems() {
         float dist = dist2D(g_playerX, g_playerZ, g_coins[i].x, g_coins[i].y);
         if (dist <= kPickupRadius) {
             g_coins[i].aktif = false;
-            score += 1;
+            score += COIN_SCORE_VALUE;  // Use constant from Config.h
         }
     }
 
@@ -203,6 +203,10 @@ void checkGameStatus() {
         float dist = dist2D(g_playerX, g_playerZ, g_exitX, g_exitZ);
         if (dist <= kWinRadius) {
             isGameWin = true;
+            // NEW: Update top score
+            if (score > topScore) {
+                topScore = score;
+            }
         }
     }
 }
