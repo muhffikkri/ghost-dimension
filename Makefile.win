@@ -4,11 +4,11 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = src/main.o src/Camera.o src/Entity.o src/Config.o
-LINKOBJ  = src/main.o src/Camera.o src/Entity.o src/Config.o
+OBJ      = src/main.o src/Camera.o src/Entity.o src/Config.o src/Coin.o src/Environment.o src/Ghost.o src/Key.o
+LINKOBJ  = src/main.o src/Camera.o src/Entity.o src/Config.o src/Coin.o src/Environment.o src/Ghost.o src/Key.o
 LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -mwindows -lglut32 -lglu32 -lopengl32 -lwinmm -lgdi32
-INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"include"
-CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"include"
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"include/shared" -I"include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"include/shared" -I"include"
 BIN      = maze-runner.exe
 CXXFLAGS = $(CXXINCS) 
 CFLAGS   = $(INCS) -DGLUT_STATIC
@@ -35,3 +35,15 @@ src/Entity.o: src/Entity.cpp
 
 src/Config.o: src/Config.cpp
 	$(CPP) -c src/Config.cpp -o src/Config.o $(CXXFLAGS)
+
+src/Coin.o: src/Coin.cpp
+	$(CPP) -c src/Coin.cpp -o src/Coin.o $(CXXFLAGS)
+
+src/Environment.o: src/Environment.cpp
+	$(CPP) -c src/Environment.cpp -o src/Environment.o $(CXXFLAGS)
+
+src/Ghost.o: src/Ghost.cpp
+	$(CPP) -c src/Ghost.cpp -o src/Ghost.o $(CXXFLAGS)
+
+src/Key.o: src/Key.cpp
+	$(CPP) -c src/Key.cpp -o src/Key.o $(CXXFLAGS)

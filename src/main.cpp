@@ -5,10 +5,10 @@
 #include <GL/glut.h>
 #include <math.h>
 #include <stdio.h>
-#include "Config.h"
-#include "Camera.h"
-#include "Environment.h"
-#include "Entity.h"
+#include "shared/Config.h"
+#include "shared/Camera.h"
+#include "shared/Environment.h"
+#include "shared/Entity.h"
 
 // Inisialisasi Objek Global
 // playerCam didefinisikan di Camera.cpp
@@ -20,6 +20,17 @@ enum AppMode {
 };
 
 static AppMode g_mode = MODE_GAME;
+
+static void clearGameInput() {
+    playerCam.moveUp = false;
+    playerCam.moveDown = false;
+    playerCam.moveLeft = false;
+    playerCam.moveRight = false;
+    playerCam.lookUp = false;
+    playerCam.lookDown = false;
+    playerCam.lookLeft = false;
+    playerCam.lookRight = false;
+}
 
 /* ===================== ENV DEMO STATE ===================== */
 static float g_envYaw  = 0.0f;
@@ -138,9 +149,11 @@ static void displayGame() {
     camX = playerCam.x;
     camY = playerCam.y;
     camZ = playerCam.z;
-    lookX = playerCam.x + cosf(playerCam.angle);
-    lookY = playerCam.y;
-    lookZ = playerCam.z + sinf(playerCam.angle);
+    float cp = cosf(playerCam.pitch);
+    float sp = sinf(playerCam.pitch);
+    lookX = playerCam.x + cosf(playerCam.angle) * cp;
+    lookY = playerCam.y + sp;
+    lookZ = playerCam.z + sinf(playerCam.angle) * cp;
 
     setupFlashlight();
     setupFog();
@@ -204,10 +217,14 @@ static void display() {
 static void timer(int v) {
     static float lastTime = 0.0f;
     float now = (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
-    g_time += now - lastTime;
+    float dt = (lastTime > 0.0f) ? (now - lastTime) : 0.016f;
+    if (dt < 0.0f) dt = 0.0f;
+    if (dt > 0.1f) dt = 0.1f;
+    g_time += dt;
     lastTime = now;
 
     if (g_mode == MODE_GAME) {
+        playerCam.handleInput(dt);
         updateGhost(playerCam.x, playerCam.z);
     }
 
@@ -267,31 +284,27 @@ static void keyboard(unsigned char key, int x, int y) {
             case 'd': case 'D': g_envYaw += 3.0f; break;
         }
     } else {
-        const float STEP = 0.15f;
         switch (key) {
-            case 'w': case 'W':
-            {
-                float nx = playerCam.x + cosf(playerCam.angle) * STEP;
-                float nz = playerCam.z + sinf(playerCam.angle) * STEP;
-                if (!checkCollision(nx, nz)) {
-                    playerCam.x = nx;
-                    playerCam.z = nz;
-                }
-                break;
-            }
-            case 's': case 'S':
-            {
-                float nx = playerCam.x - cosf(playerCam.angle) * STEP;
-                float nz = playerCam.z - sinf(playerCam.angle) * STEP;
-                if (!checkCollision(nx, nz)) {
-                    playerCam.x = nx;
-                    playerCam.z = nz;
-                }
-                break;
-            }
-            case 'a': case 'A': playerCam.angle -= 0.08f; break;
-            case 'd': case 'D': playerCam.angle += 0.08f; break;
+            case 'w': case 'W': playerCam.moveUp = true; break;
+            case 's': case 'S': playerCam.moveDown = true; break;
+            case 'a': case 'A': playerCam.moveLeft = true; break;
+            case 'd': case 'D': playerCam.moveRight = true; break;
         }
+    }
+}
+
+static void keyboardUp(unsigned char key, int x, int y) {
+    (void)x; (void)y;
+
+    if (g_mode != MODE_GAME) {
+        return;
+    }
+
+    switch (key) {
+        case 'w': case 'W': playerCam.moveUp = false; break;
+        case 's': case 'S': playerCam.moveDown = false; break;
+        case 'a': case 'A': playerCam.moveLeft = false; break;
+        case 'd': case 'D': playerCam.moveRight = false; break;
     }
 }
 
@@ -300,15 +313,18 @@ static void specialKey(int key, int x, int y) {
 
     if (key == GLUT_KEY_F1) {
         g_mode = MODE_GAME;
+        clearGameInput();
         return;
     }
     if (key == GLUT_KEY_F2) {
         g_mode = MODE_ENV_DEMO;
+        clearGameInput();
         return;
     }
     if (key == GLUT_KEY_F3) {
         g_mode = MODE_ENTITY_DEMO;
         resetEntityDemoState();
+        clearGameInput();
         return;
     }
 
@@ -319,6 +335,28 @@ static void specialKey(int key, int x, int y) {
             case GLUT_KEY_LEFT:  g_rotY -= 5.0f; break;
             case GLUT_KEY_RIGHT: g_rotY += 5.0f; break;
         }
+    } else if (g_mode == MODE_GAME) {
+        switch (key) {
+            case GLUT_KEY_UP:    playerCam.lookUp = true; break;
+            case GLUT_KEY_DOWN:  playerCam.lookDown = true; break;
+            case GLUT_KEY_LEFT:  playerCam.lookLeft = true; break;
+            case GLUT_KEY_RIGHT: playerCam.lookRight = true; break;
+        }
+    }
+}
+
+static void specialKeyUp(int key, int x, int y) {
+    (void)x; (void)y;
+
+    if (g_mode != MODE_GAME) {
+        return;
+    }
+
+    switch (key) {
+        case GLUT_KEY_UP:    playerCam.lookUp = false; break;
+        case GLUT_KEY_DOWN:  playerCam.lookDown = false; break;
+        case GLUT_KEY_LEFT:  playerCam.lookLeft = false; break;
+        case GLUT_KEY_RIGHT: playerCam.lookRight = false; break;
     }
 }
 
@@ -334,7 +372,9 @@ int main(int argc, char** argv) {
 
     glutDisplayFunc(display);
     glutKeyboardFunc(keyboard);
+    glutKeyboardUpFunc(keyboardUp);
     glutSpecialFunc(specialKey);
+    glutSpecialUpFunc(specialKeyUp);
     glutTimerFunc(0, timer, 0);
     glutMainLoop();
     return 0;

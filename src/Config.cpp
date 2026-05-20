@@ -2,7 +2,7 @@
 // Deskripsi : Implementasi variabel global dan konfigurasi runtime game.
 // Tanggal Dibuat : 24 Maret 2026
 
-#include "Config.h"
+#include "shared/Config.h"
 
 // Inisialisasi variabel global yang dideklarasikan di Config.h
 bool isGameOver = false;

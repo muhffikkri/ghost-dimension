@@ -2,7 +2,7 @@
 // Coin.cpp
 // ============================================================
 
-#include "entity/Coin.h"
+#include "shared/Coin.h"
 
 static void drawCoinShape() {
     GLUquadric* q = gluNewQuadric();

@@ -7,7 +7,7 @@
 // ============================================================
 
 #include <GL/glut.h>
-#include "Config.h"
+#include "shared/Config.h"
 
 // Data satu koin
 struct Coin {

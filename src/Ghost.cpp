@@ -1,4 +1,4 @@
-#include "entity/Ghost.h"
+#include "shared/Ghost.h"
 #include <math.h>
 #include <stdio.h>
 

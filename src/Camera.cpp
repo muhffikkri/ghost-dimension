@@ -2,19 +2,88 @@
 // Deskripsi : Implementasi fungsi kamera dan pengaturan tampilan pemain.
 // Tanggal Dibuat : 24 Maret 2026
 
-#include "Camera.h"
-#include "Config.h"
+#include "shared/Camera.h"
+#include "shared/Config.h"
+#include "shared/Entity.h"
 #include <GL/glut.h>
 #include <math.h>
 #include <stdio.h>
 
-Camera playerCam = {3.0f, 1.6f, 3.0f, 3.9269907f, 0.0f};
+Camera playerCam = {
+    3.0f, 1.6f, 3.0f,
+    3.9269907f, 0.0f,
+    0.0f,
+    false, false, false, false,
+    false, false, false, false
+};
 
 static void drawText2D(float x, float y, const char* text) {
     glRasterPos2f(x, y);
     for (const char* p = text; *p != '\0'; ++p) {
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *p);
     }
+}
+
+void Camera::handleInput(float dt) {
+    if (dt <= 0.0f) {
+        return;
+    }
+
+    const float moveStep = CAMERA_MOVE_SPEED * dt;
+    const float turnStep = CAMERA_TURN_SPEED * dt;
+    const float pitchStep = CAMERA_PITCH_SPEED * dt;
+
+    float moveX = 0.0f;
+    float moveZ = 0.0f;
+    const float forwardX = cosf(angle);
+    const float forwardZ = sinf(angle);
+    const float rightX = cosf(angle + 1.5707963f);
+    const float rightZ = sinf(angle + 1.5707963f);
+
+    if (moveUp) {
+        moveX += forwardX * moveStep;
+        moveZ += forwardZ * moveStep;
+    }
+    if (moveDown) {
+        moveX -= forwardX * moveStep;
+        moveZ -= forwardZ * moveStep;
+    }
+    if (moveLeft) {
+        moveX -= rightX * moveStep;
+        moveZ -= rightZ * moveStep;
+    }
+    if (moveRight) {
+        moveX += rightX * moveStep;
+        moveZ += rightZ * moveStep;
+    }
+
+    if (moveX != 0.0f || moveZ != 0.0f) {
+        float nextX = x + moveX;
+        float nextZ = z + moveZ;
+
+        if (!checkCollision(nextX, z)) {
+            x = nextX;
+        }
+        if (!checkCollision(x, nextZ)) {
+            z = nextZ;
+        }
+    }
+
+    if (lookLeft) {
+        angle -= turnStep;
+    }
+    if (lookRight) {
+        angle += turnStep;
+    }
+    if (lookUp) {
+        pitch += pitchStep;
+    }
+    if (lookDown) {
+        pitch -= pitchStep;
+    }
+
+    if (pitch > CAMERA_PITCH_LIMIT) pitch = CAMERA_PITCH_LIMIT;
+    if (pitch < -CAMERA_PITCH_LIMIT) pitch = -CAMERA_PITCH_LIMIT;
 }
 
 void Camera::update() {
@@ -61,14 +130,28 @@ void Camera::update() {
 void Camera::apply() {
     update();
 
-    const float bobbingOffset = sin(bobbingTimer) * 0.05f;
+    const float bobbingOffset = sinf(bobbingTimer) * 0.05f;
+    const float cp = cosf(pitch);
+    const float sp = sinf(pitch);
+    const float dirX = cosf(angle) * cp;
+    const float dirY = sp;
+    const float dirZ = sinf(angle) * cp;
+
+    int w = glutGet(GLUT_WINDOW_WIDTH);
+    int h = glutGet(GLUT_WINDOW_HEIGHT);
+    if (h == 0) h = 1;
+    float aspect = (float)w / (float)h;
+
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(CAMERA_FOVY, aspect, 0.1f, 100.0f);
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
     gluLookAt(
         x, y + bobbingOffset, z,
-        x + cos(angle), y + bobbingOffset, z + sin(angle),
+        x + dirX, y + bobbingOffset + dirY, z + dirZ,
         0.0f, 1.0f, 0.0f
     );
 }

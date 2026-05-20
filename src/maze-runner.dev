@@ -4,7 +4,7 @@ Name=maze-runner
 Type=1
 Ver=2
 ObjFiles=
-Includes=D:\kuliah\semester4\gti\maze-runner\include\entity;D:\kuliah\semester4\gti\maze-runner\include\environment;D:\kuliah\semester4\gti\maze-runner\include
+Includes=D:\kuliah\semester4\gti\maze-runner\include\shared;D:\kuliah\semester4\gti\maze-runner\include
 Libs=
 PrivateResource=
 ResourceIncludes=
@@ -21,8 +21,8 @@ LogOutputEnabled=0
 OverrideOutput=0
 OverrideOutputName=maze-runner.exe
 HostApplication=
-UseCustomMakefile=0
-CustomMakefile=
+UseCustomMakefile=1
+CustomMakefile=Makefile.win
 CommandLine=
 Folders=
 IncludeVersionInfo=0
@@ -81,7 +81,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=..\include\Camera.h
+FileName=..\include\shared\Camera.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -91,7 +91,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=..\include\Config.h
+FileName=..\include\shared\Config.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -111,7 +111,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=..\include\Entity.h
+FileName=..\include\shared\Entity.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -121,7 +121,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=..\include\Environment.h
+FileName=..\include\shared\Environment.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -131,7 +131,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=entity\Coin.cpp
+FileName=Coin.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -141,7 +141,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=entity\Ghost.cpp
+FileName=Ghost.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -151,7 +151,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=entity\Key.cpp
+FileName=Key.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -161,7 +161,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=environment\Environment.cpp
+FileName=Environment.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1

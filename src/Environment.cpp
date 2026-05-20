@@ -9,8 +9,8 @@
 
 #include <GL/glut.h>
 #include <cmath>
-#include "Config.h"
-#include "environment/Environment.h"
+#include "shared/Config.h"
+#include "shared/Environment.h"
 
 /* ===================== GLOBALS ===================== */
 GLuint g_texWall  = 0;
@@ -123,7 +123,7 @@ void setupFlashlight() {
     glLightfv(GL_LIGHT0, GL_DIFFUSE,        diff);
     glLightfv(GL_LIGHT0, GL_SPECULAR,       spec);
 
-    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF,          35.0f); /* sudut setengah cone */
+    glLightf(GL_LIGHT0, GL_SPOT_CUTOFF,          FLASHLIGHT_CUTOFF); /* sudut setengah cone */
     glLightf(GL_LIGHT0, GL_SPOT_EXPONENT,         8.0f); /* makin besar = tepi makin tajam */
     glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0f);
     glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,    0.0f);
@@ -203,7 +203,7 @@ void drawTorch(float x, float y, float z, int id) {
     }
 
     /* Cek apakah ada dinding menghalangi antara obor dan pemain */
-    const float S = 2.0f;
+    const float S = MAZE_CELL_SIZE;
     float occlude = 1.0f;
     int steps = (int)(dist / 0.4f) + 1;
     for (int s = 1; s <= steps; s++) {
@@ -232,8 +232,8 @@ void drawTorch(float x, float y, float z, int id) {
     glLightfv(lid, GL_SPECULAR, lSpec);
     glLightf(lid, GL_SPOT_CUTOFF,          180.0f);
     glLightf(lid, GL_CONSTANT_ATTENUATION,   1.0f);
-    glLightf(lid, GL_LINEAR_ATTENUATION,     0.5f);
-    glLightf(lid, GL_QUADRATIC_ATTENUATION,  0.15f);
+    glLightf(lid, GL_LINEAR_ATTENUATION,     TORCH_LINEAR_ATT);
+    glLightf(lid, GL_QUADRATIC_ATTENUATION,  TORCH_QUAD_ATT);
 
     /* Gambar model obor */
     glPushMatrix();
@@ -439,7 +439,7 @@ void drawVolumetricSpotlight() {
 
 /* ===================== RENDER DUNIA ===================== */
 void renderEnvironment() {
-    const float S  = 2.0f;  /* ukuran tiap cell maze dalam world unit */
+    const float S  = MAZE_CELL_SIZE;  /* ukuran tiap cell maze dalam world unit */
     const float WH = 2.5f;  /* tinggi dinding */
 
     /* Pass 1: Gambar lantai semua cell */
@@ -456,16 +456,20 @@ void renderEnvironment() {
                 float wz = (float)i*S;
                 drawWallCube(wx, wz, S, WH);
 
-                /* Taruh obor setiap 15 cell, max 6 obor,
-                   hanya jika cell sebelah kiri adalah lorong */
-                if ((i+j)%15==0 && tCount<6 &&
-                    j>0 && mazeMatrix[i][j-1]==0)
-                {
-                    tX[tCount] = wx + 0.1f;
-                    tY[tCount] = WH * 0.6f;
-                    tZ[tCount] = wz + S*0.5f;
-                    drawTorch(tX[tCount], tY[tCount], tZ[tCount], tCount);
-                    tCount++;
+                if (tCount < 6) {
+                    bool corridorNear = false;
+                    if (i > 0 && mazeMatrix[i - 1][j] == 0) corridorNear = true;
+                    if (i + 1 < MAZE_HEIGHT && mazeMatrix[i + 1][j] == 0) corridorNear = true;
+                    if (j > 0 && mazeMatrix[i][j - 1] == 0) corridorNear = true;
+                    if (j + 1 < MAZE_WIDTH && mazeMatrix[i][j + 1] == 0) corridorNear = true;
+
+                    if (corridorNear && ((i * 3 + j * 5) % 4 == 0)) {
+                        tX[tCount] = wx + 0.1f;
+                        tY[tCount] = WH * 0.6f;
+                        tZ[tCount] = wz + S * 0.5f;
+                        drawTorch(tX[tCount], tY[tCount], tZ[tCount], tCount);
+                        tCount++;
+                    }
                 }
             }
         }
@@ -489,7 +493,7 @@ void drawMinimap() {
     const int   MMAP_H = MAZE_HEIGHT * CELL;
     const int   ORIG_X = winW - MMAP_W - MARGIN;
     const int   ORIG_Y = winH - MMAP_H - MARGIN;
-    const float S      = 2.0f;
+    const float S      = MAZE_CELL_SIZE;
 
     /* Switch ke 2D orthographic untuk HUD */
     glDisable(GL_LIGHTING);

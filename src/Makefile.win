@@ -4,14 +4,14 @@
 CPP      = g++.exe
 CC       = gcc.exe
 WINDRES  = windres.exe
-OBJ      = Camera.o Config.o Entity.o main.o entity/Coin.o entity/Ghost.o entity/Key.o environment/Environment.o
-LINKOBJ  = Camera.o Config.o Entity.o main.o entity/Coin.o entity/Ghost.o entity/Key.o environment/Environment.o
-LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -lopengl32 -lglu32 -lglut32
-INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"D:/kuliah/semester4/gti/maze-runner/include/entity" -I"D:/kuliah/semester4/gti/maze-runner/include/environment" -I"D:/kuliah/semester4/gti/maze-runner/include"
-CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"D:/kuliah/semester4/gti/maze-runner/include/entity" -I"D:/kuliah/semester4/gti/maze-runner/include/environment" -I"D:/kuliah/semester4/gti/maze-runner/include"
+OBJ      = main.o Camera.o Entity.o Config.o Coin.o Ghost.o Key.o Environment.o
+LINKOBJ  = main.o Camera.o Entity.o Config.o Coin.o Ghost.o Key.o Environment.o
+LIBS     = -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib" -L"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/lib" -static-libstdc++ -static-libgcc -mwindows -lglut32 -lglu32 -lopengl32 -lwinmm -lgdi32
+INCS     = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"../include/shared" -I"../include"
+CXXINCS  = -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/mingw32/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include" -I"C:/Program Files (x86)/Dev-Cpp/MinGW32/lib/gcc/mingw32/4.8.1/include/c++" -I"../include/shared" -I"../include"
 BIN      = maze-runner.exe
 CXXFLAGS = $(CXXINCS) 
-CFLAGS   = $(INCS) 
+CFLAGS   = $(INCS) -DGLUT_STATIC
 RM       = rm.exe -f
 
 .PHONY: all all-before all-after clean clean-custom
@@ -24,26 +24,26 @@ clean: clean-custom
 $(BIN): $(OBJ)
 	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
 
-Camera.o: Camera.cpp
-	$(CPP) -c Camera.cpp -o Camera.o $(CXXFLAGS)
+src/main.o: main.cpp
+	$(CPP) -c main.cpp -o ../src/main.o $(CXXFLAGS)
 
-Config.o: Config.cpp
-	$(CPP) -c Config.cpp -o Config.o $(CXXFLAGS)
+src/Camera.o: Camera.cpp
+	$(CPP) -c Camera.cpp -o ../src/Camera.o $(CXXFLAGS)
 
-Entity.o: Entity.cpp
-	$(CPP) -c Entity.cpp -o Entity.o $(CXXFLAGS)
+src/Entity.o: Entity.cpp
+	$(CPP) -c Entity.cpp -o ../src/Entity.o $(CXXFLAGS)
 
-main.o: main.cpp
-	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+src/Config.o: Config.cpp
+	$(CPP) -c Config.cpp -o ../src/Config.o $(CXXFLAGS)
 
-entity/Coin.o: entity/Coin.cpp
-	$(CPP) -c entity/Coin.cpp -o entity/Coin.o $(CXXFLAGS)
+src/Coin.o: Coin.cpp
+	$(CPP) -c Coin.cpp -o ../src/Coin.o $(CXXFLAGS)
 
-entity/Ghost.o: entity/Ghost.cpp
-	$(CPP) -c entity/Ghost.cpp -o entity/Ghost.o $(CXXFLAGS)
+src/Ghost.o: Ghost.cpp
+	$(CPP) -c Ghost.cpp -o ../src/Ghost.o $(CXXFLAGS)
 
-entity/Key.o: entity/Key.cpp
-	$(CPP) -c entity/Key.cpp -o entity/Key.o $(CXXFLAGS)
+src/Key.o: Key.cpp
+	$(CPP) -c Key.cpp -o ../src/Key.o $(CXXFLAGS)
 
-environment/Environment.o: environment/Environment.cpp
-	$(CPP) -c environment/Environment.cpp -o environment/Environment.o $(CXXFLAGS)
+src/Environment.o: Environment.cpp
+	$(CPP) -c Environment.cpp -o ../src/Environment.o $(CXXFLAGS)

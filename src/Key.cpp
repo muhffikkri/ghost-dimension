@@ -2,7 +2,7 @@
 // Key.cpp
 // ============================================================
 
-#include "entity/Key.h"
+#include "shared/Key.h"
 #include <math.h>
 
 static void drawKeyShape() {

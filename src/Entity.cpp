@@ -2,12 +2,12 @@
 // Deskripsi : Implementasi logika entitas seperti item, hantu, dan status game.
 // Tanggal Dibuat : 24 Maret 2026
 
-#include "Entity.h"
-#include "Config.h"
+#include "shared/Entity.h"
+#include "shared/Config.h"
 #include <GL/glut.h>
 #include <math.h>
 
-static const float kTileSize          = 2.0f;
+static const float kTileSize          = MAZE_CELL_SIZE;
 static const float kPlayerRadius      = 0.35f;
 static const float kPickupRadius      = 0.6f;
 static const float kGhostTriggerDist  = 6.0f;

@@ -12,8 +12,20 @@
 struct Camera {
     float x, y, z;
     float angle;
+    float pitch;
     float bobbingTimer;
 
+    bool moveUp;
+    bool moveDown;
+    bool moveLeft;
+    bool moveRight;
+
+    bool lookUp;
+    bool lookDown;
+    bool lookLeft;
+    bool lookRight;
+
+    void handleInput(float dt);
     void update(); // TODO: Implementasi perhitungan posisi kamera & head bobbing
     void apply();  // TODO: Implementasi gluLookAt
 };

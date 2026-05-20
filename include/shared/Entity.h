@@ -7,9 +7,9 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
-#include "entity/Ghost.h"
-#include "entity/Coin.h"
-#include "entity/Key.h"
+#include "shared/Ghost.h"
+#include "shared/Coin.h"
+#include "shared/Key.h"
 
 struct Entity {
     float x, y, z;
