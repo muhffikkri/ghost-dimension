@@ -7,7 +7,7 @@
 // ============================================================
 
 #include <GL/glut.h>
-#include "shared/Config.h"
+#include "Config.h"
 
 // Data satu koin
 struct Coin {
@@ -16,7 +16,6 @@ struct Coin {
     float spinAngle;   // sudut rotasi animasi (derajat)
 };
 
-#define MAX_COINS 5
 
 // ----- Fungsi Gambar -----
 

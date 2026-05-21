@@ -7,7 +7,7 @@
 // ============================================================
 
 #include <GL/glut.h>
-#include "shared/Config.h"
+#include "Config.h"
 
 // Data kunci
 struct Key {

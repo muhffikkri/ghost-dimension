@@ -1,6 +1,7 @@
-#include "shared/Ghost.h"
+#include "../include/Ghost.h"
 #include <math.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 static void drawGhostBody() {
     const float PI = 3.14159f;
@@ -210,14 +211,34 @@ static float dist2(float ax, float ay, float bx, float by) {
 // bentuk awal ghost
 void initGhost(Ghost& g,
                const char map[][MAZE_WIDTH], int mapW, int mapH, float tile) {
+    // Spawn ghost at a random free cell (non-wall '#').
+    // Try random sampling up to a reasonable limit, fallback to default.
+    // int tries = 0;
+    // int maxTries = mapW * mapH * 2;
+    // bool placed = false;
+    // while (tries < maxTries) {
+    //     int rr = rand() % mapH;
+    //     int cc = rand() % mapW;
+    //     if (map[rr][cc] != '#') {
+    //         g.x = (cc + 0.5f) * tile;
+    //         g.y = (rr + 0.5f) * tile;
+    //         placed = true;
+    //         break;
+    //     }
+    //     tries++;
+    // }
+    // if (!placed) {
+    //     g.x = 7.5f * tile;
+    //     g.y = 1.5f * tile;
+    // }
     g.x = 7.5f * tile;
     g.y = 1.5f * tile;
     g.rotY = 0;
 
-    g.speedPatrol = 2.0f; // jalan biasa
-    g.speedChase  = 4.0f; // ngejer
+    g.speedPatrol = 1.2f; // jalan biasa
+    g.speedChase  = 1.2f; // ngejer
 
-    g.sightRange  = 5.0f;   //range jarak
+    g.sightRange  = 20.0f;   //range jarak
     g.loseRange   = 8.0f;  // udah lewat
     g.chaseTimer  = 0.0f;
 
@@ -251,7 +272,7 @@ static void moveGhostToward(Ghost& g, float tx, float ty, float speed, float dt,
     float nx   = dx / jarak;
     float ny   = dy / jarak;
     float step = speed * dt;
-    float rad  = 0.3f;
+    float rad  = 0.4f;
 
     float nx2 = g.x + nx * step;
     if (!isWallGhost(nx2 + rad * nx, g.y, map, mapW, mapH, tile) &&

@@ -4,7 +4,7 @@ Name=maze-runner
 Type=1
 Ver=2
 ObjFiles=
-Includes=D:\kuliah\semester4\gti\maze-runner\include\shared;D:\kuliah\semester4\gti\maze-runner\include
+Includes=C:\Users\muhffikkri\Downloads\maze-runner-main\maze-runner-main\include;D:\kuliah\semester4\gti\maze-runner\include
 Libs=
 PrivateResource=
 ResourceIncludes=
@@ -21,15 +21,15 @@ LogOutputEnabled=0
 OverrideOutput=0
 OverrideOutputName=maze-runner.exe
 HostApplication=
-UseCustomMakefile=1
-CustomMakefile=Makefile.win
+UseCustomMakefile=0
+CustomMakefile=
 CommandLine=
 Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=12
+UnitCount=15
 
 [VersionInfo]
 Major=1
@@ -81,7 +81,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit5]
-FileName=..\include\shared\Camera.h
+FileName=..\include\Camera.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -91,7 +91,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit6]
-FileName=..\include\shared\Config.h
+FileName=..\include\Config.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -111,7 +111,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit7]
-FileName=..\include\shared\Entity.h
+FileName=..\include\Entity.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -121,7 +121,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit8]
-FileName=..\include\shared\Environment.h
+FileName=..\include\Environment.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -131,7 +131,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit9]
-FileName=Coin.cpp
+FileName=entity\Coin.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -141,7 +141,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit10]
-FileName=Ghost.cpp
+FileName=entity\Ghost.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -151,7 +151,7 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit11]
-FileName=Key.cpp
+FileName=entity\Key.cpp
 CompileCpp=1
 Folder=maze-runner
 Compile=1
@@ -161,7 +161,37 @@ OverrideBuildCmd=0
 BuildCmd=
 
 [Unit12]
-FileName=Environment.cpp
+FileName=environment\Environment.cpp
+CompileCpp=1
+Folder=maze-runner
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit13]
+FileName=..\include\Coin.h
+CompileCpp=1
+Folder=maze-runner
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit14]
+FileName=..\include\Ghost.h
+CompileCpp=1
+Folder=maze-runner
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit15]
+FileName=..\include\Key.h
 CompileCpp=1
 Folder=maze-runner
 Compile=1

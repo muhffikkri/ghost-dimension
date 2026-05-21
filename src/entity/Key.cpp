@@ -2,7 +2,7 @@
 // Key.cpp
 // ============================================================
 
-#include "shared/Key.h"
+#include "../include/Key.h"
 #include <math.h>
 
 static void drawKeyShape() {

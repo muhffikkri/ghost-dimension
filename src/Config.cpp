@@ -2,20 +2,24 @@
 // Deskripsi : Implementasi variabel global dan konfigurasi runtime game.
 // Tanggal Dibuat : 24 Maret 2026
 
-#include "shared/Config.h"
+#include "../include/Config.h"
+#include <string.h>
 
-// Inisialisasi variabel global yang dideklarasikan di Config.h
-bool isGameOver = false;
-bool isGameWin = false;
-bool hasKey = false;
-bool isGhostTriggered = false;
-int score = 0;
-int topScore = 0;  // NEW: Track highest score
+bool       isGameOver      = false;
+bool       isGameWin       = false;
+bool       hasKey          = false;
+bool       isGhostTriggered = false;
+int        score           = 0;
+int        topScore        = 0;
+float      gameDuration    = 0.0f;
+int        historyCount    = 0;
 
-// Implementasi Map Labirin (0: Jalan, 1: Dinding)
+/* C++98: inisialisasi struct array pakai memset */
+ScoreEntry scoreHistory[5];
+
 int mazeMatrix[MAZE_HEIGHT][MAZE_WIDTH] = {
-    {0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1},
+    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+    {1,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,1},
     {1,0,1,1,0,1,1,0,1,1,1,1,0,1,1,0,1,1,0,1},
     {1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1},
     {1,0,1,0,1,1,1,1,1,0,0,1,0,1,1,0,1,0,1,1},
@@ -37,5 +41,5 @@ int mazeMatrix[MAZE_HEIGHT][MAZE_WIDTH] = {
 };
 
 void generateMaze() {
-    // maze sudah hardcoded di atas
+    memset(scoreHistory, 0, sizeof(scoreHistory));
 }

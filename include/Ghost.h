@@ -2,7 +2,7 @@
 #define GHOST_H
 
 #include <GL/glut.h>
-#include "shared/Config.h"
+#include "../include/Config.h"
 
 #define MAX_WAYPOINTS 12
 
