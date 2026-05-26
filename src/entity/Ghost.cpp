@@ -212,7 +212,6 @@ static float dist2(float ax, float ay, float bx, float by) {
 void initGhost(Ghost& g,
                const char map[][MAZE_WIDTH], int mapW, int mapH, float tile) {
     // Spawn ghost at a random free cell (non-wall '#').
-    // Try random sampling up to a reasonable limit, fallback to default.
     // int tries = 0;
     // int maxTries = mapW * mapH * 2;
     // bool placed = false;

@@ -78,15 +78,10 @@ void genTextures() {
     glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
 }
 
-// ===================== BUG FIX 1: SPOTLIGHT TIDAK MENEMBUS DINDING =====================
-// setupFlashlight() WAJIB dipanggil SEBELUM gluLookAt (di eye-space).
-// Dengan pasang posisi di (0,0,0) eye-space, lampu selalu di mata kamera.
-// Depth buffer sudah memblok cahaya dari menembus dinding secara visual.
-// Tambahan: spot_cutoff dikecilkan agar berbentuk kerucut jelas.
 void setupFlashlight() {
     glEnable(GL_LIGHT0);
 
-    // FIXED: Set di eye-space ? posisi ikut kamera otomatis, tidak menembus dinding
+    // Set di eye-space ? posisi ikut kamera otomatis, tidak menembus dinding
     glMatrixMode(GL_MODELVIEW);
     glPushMatrix();
     glLoadIdentity(); // identitas = eye-space
@@ -105,7 +100,6 @@ void setupFlashlight() {
     glLightfv(GL_LIGHT0, GL_DIFFUSE,  diff);
     glLightfv(GL_LIGHT0, GL_SPECULAR, spec);
 
-    // FIXED: Cutoff 45� membentuk kerucut nyata, exponent 5 = gradasi lembut
     glLightf(GL_LIGHT0, GL_SPOT_CUTOFF,          45.0f);
     glLightf(GL_LIGHT0, GL_SPOT_EXPONENT,         5.0f);
     glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION,  1.0f);
@@ -113,7 +107,7 @@ void setupFlashlight() {
     glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.005f);
 }
 
-// Fungsi obor tidak berubah signifikan, tetap ada occlusion check
+// Fungsi obor  occlusion check
 void drawTorchFlame(float flickVal) {
     glDisable(GL_LIGHTING);
     glDisable(GL_TEXTURE_2D);
@@ -212,7 +206,7 @@ void drawTexturedFloor(float x, float z, float s) {
     glDisable(GL_TEXTURE_2D);
 }
 
-// ===================== FIXED: drawExitPoint() =====================
+// ===================== drawExitPoint() =====================
 // Portal keluar bercahaya cyan berputar, muncul di ujung maze.
 // Jika belum ada key, portal ditampilkan memudar/abu-abu.
 void drawExitPoint(float ex, float ez) {
@@ -350,10 +344,8 @@ void renderEnvironment() {
     drawShadows();
 }
 
-// ===================== FIXED: drawMinimap() dengan semua entitas =====================
+// ===================== drawMinimap() dengan semua entitas =====================
 void drawMinimap() {
-    // Tidak perlu extern apapun � semua via getter dari Entity.h
-
     int winW=glutGet(GLUT_WINDOW_WIDTH);
     int winH=glutGet(GLUT_WINDOW_HEIGHT);
     if (winH==0) winH=1;
@@ -422,7 +414,7 @@ void drawMinimap() {
         }
     }
 
-    // Exit point (cyan) � pakai getter
+    // Exit point (cyan) 
     {
         float ex = getExitX(), ez = getExitZ();
         int ex2=(int)(ex/S), ez2=(int)(ez/S);
@@ -436,7 +428,7 @@ void drawMinimap() {
         glEnd();
     }
 
-    // Coin aktif (hijau) � pakai getter
+    // Coin aktif (hijau) 
     {
         int numCoins = getNumCoins();
         for (int i=0;i<numCoins;i++) {
@@ -452,7 +444,7 @@ void drawMinimap() {
         }
     }
 
-    // Key (emas) � pakai getter
+    // Key (emas) 
     if (isKeyActive()) {
         int kx=(int)(getKeyX()/S), kz=(int)(getKeyZ()/S);
         int px=ORIG_X+kx*CELL+CELL/2;
@@ -464,7 +456,7 @@ void drawMinimap() {
         glEnd();
     }
 
-    // Ghost (merah berkedip) � pakai getter
+    // Ghost (merah berkedip) 
     if (isGhostTriggered) {
         int gx=(int)(getGhostX()/S), gz=(int)(getGhostZ()/S);
         int px=ORIG_X+gx*CELL+CELL/2;

@@ -11,7 +11,7 @@
 struct Camera {
     float x, y, z;
     float angle, pitch;
-    float bobbingTimer;   /* C++98: tanpa "= 0.0f" di sini */
+    float bobbingTimer;  
     void apply();
 };
 

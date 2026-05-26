@@ -55,7 +55,6 @@ void drawCoinGame(float px, float py, float floatOffset, float spinAngle) {
     glPopMatrix();
 }
 
-// FIXED: initCoins() sekarang baca dari map char[][] yang sudah diisi 'C'
 void initCoins(Coin coins[], int& numCoins,
                const char map[][MAZE_WIDTH], int mapW, int mapH, float tile) {
     numCoins = 0;

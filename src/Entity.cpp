@@ -2,10 +2,6 @@
 // Deskripsi : Implementasi logika entitas seperti item, hantu, dan status game.
 // Tanggal Dibuat : 24 Maret 2026
 
-// Nama File : Entity.cpp
-// Deskripsi : Implementasi logika entitas seperti item, hantu, dan status game.
-// Tanggal Dibuat : 24 Maret 2026
-
 #include "../include/Entity.h"
 #include "../include/Config.h"
 #include <GL/glut.h>
@@ -41,10 +37,9 @@ static float g_lastGhostTime = 0.0f;
 // Alias agar kode lama tetap jalan
 Coin* g_coins = g_coins_arr;
 
-// --- Getter (harus SETELAH deklarasi variabel di atas) -----------------------
 float getKeyX()      { return g_key.x; }
 float getKeyZ()      { return g_key.y; }
-bool  isKeyActive()  { return g_key.aktif; }   // bool, sesuai Entity.h
+bool  isKeyActive()  { return g_key.aktif; }
 float getGhostX()    { return g_ghost.x; }
 float getGhostZ()    { return g_ghost.y; }
 float getGhostDist() {

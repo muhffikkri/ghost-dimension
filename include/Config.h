@@ -19,7 +19,7 @@
 #define MAZE_WIDTH      20
 #define MAZE_HEIGHT     20
 #define MAX_COINS       64
-#define PLAYER_SPEED    0.3f
+#define PLAYER_SPEED    0.1f
 
 /* ----------------------------------------------------------------
    ScoreEntry: riwayat skor pemain

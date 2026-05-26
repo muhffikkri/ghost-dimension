@@ -14,7 +14,7 @@ int        topScore        = 0;
 float      gameDuration    = 0.0f;
 int        historyCount    = 0;
 
-/* C++98: inisialisasi struct array pakai memset */
+/* inisialisasi struct array pakai memset */
 ScoreEntry scoreHistory[5];
 
 int mazeMatrix[MAZE_HEIGHT][MAZE_WIDTH] = {
