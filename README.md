@@ -1,68 +1,87 @@
-# 🎮 The Silent Labyrinth - GTI 2026
+# Ghost Dimension - GTI 2026
 
-**The Silent Labyrinth** adalah sebuah proyek game _survival horror_ berbasis _First-Person_ yang dikembangkan menggunakan **OpenGL** dan library **GLUT**. Proyek ini dikerjakan secara berkelompok untuk memenuhi tugas besar praktikum Grafika dan Teknik Interaktif (GTI) Informatika 2025/2026.
+**Ghost Dimension** adalah game _first-person survival horror_ berbasis **OpenGL** dan **GLUT**. Pemain berada di dalam labirin gelap, harus mengumpulkan koin, menemukan kunci, dan mencapai pintu keluar sambil menghindari hantu yang mulai aktif setelah pemain menjauh dari titik awal. Proyek ini dibuat untuk tugas besar praktikum Grafika dan Teknik Interaktif (GTI) Informatika 2025/2026.
 
-## 📝 Deskripsi Umum
+## Deskripsi Game
 
-Pemain akan terjebak di dalam sebuah labirin kuno yang gelap. Tujuan utama pemain adalah mengumpulkan koin untuk mendapatkan skor tertinggi, menemukan kunci yang tersembunyi, dan mencapai pintu keluar. Namun, pemain tidak sendirian; sebuah entitas akan mulai mengejar setelah pemain bergerak menjauh dari titik awal. Keberhasilan pemain ditentukan oleh kemampuan navigasi di bawah penerangan terbatas dan kecepatan menyelesaikan misi sebelum tertangkap atau waktu habis.
+Ghost Dimension menempatkan pemain dalam suasana labirin kuno yang sunyi, gelap, dan penuh ancaman. Pemain hanya dibekali sudut pandang _first-person_, sehingga orientasi ruang menjadi tantangan utama. Di sepanjang maze terdapat koin untuk skor, kunci untuk membuka akses keluar, serta sumber cahaya terbatas berupa senter pemain dan obor di beberapa titik dinding.
 
----
+Ancaman utama datang dari hantu yang akan aktif setelah pemain melewati jarak tertentu dari titik spawn. Setelah aktif, hantu terus mengejar pemain hingga permainan selesai. Kombinasi navigasi, pengambilan item, dan manajemen jarak dari musuh menjadi inti gameplay.
 
-## ⚙️ Mekanisme Game
+## Mekanisme Game
 
-Game ini dirancang dengan alur permainan (_gameplay loop_) sebagai berikut:
+### Kondisi Awal
 
-### 1. Kondisi Awal (Start Condition)
+- Pemain memulai permainan di titik spawn yang aman.
+- Kamera berada pada posisi _eye level_ agar sudut pandang terasa imersif.
+- Senter aktif sejak awal untuk membantu navigasi di area gelap.
 
-- Pemain memulai permainan di titik _spawn_ yang aman di dalam labirin.
-- Pemain dilengkapi dengan senter (tanpa baterai/penerangan permanen) untuk membantu penglihatan di area gelap.
+### Eksplorasi dan Interaksi
 
-### 2. Mekanisme Eksplorasi & Interaksi
+- Pemain bergerak menggunakan kontrol keyboard dalam mode _first-person_.
+- Koin tersebar di sepanjang lorong maze dan dapat diambil untuk menambah skor.
+- Kunci harus ditemukan sebelum pemain dapat menggunakan pintu keluar.
+- Objek item dan lingkungan dibuat untuk mendukung eksplorasi dengan pencahayaan yang terbatas.
+- Deteksi tabrakan mencegah pemain menembus dinding.
 
-- **Pergerakan:** Pemain bergerak menggunakan sudut pandang mata (_eye level_) dengan kontrol keyboard.
-- **Koin & Skor:** Koin tersebar di lorong labirin; mengambil koin akan menambah skor akhir pemain.
-- **Kunci & Pintu:** Pemain wajib menemukan item "Kunci" untuk dapat berinteraksi dengan pintu keluar yang terkunci.
-- **Penerangan:** Selain senter pemain, terdapat obor statis di beberapa titik dinding untuk memberikan pencahayaan tambahan.
+### Entitas Musuh
 
-### 3. Entitas Musuh (Ghost AI)
+- Hantu tidak aktif sejak awal permainan.
+- Setelah pemain bergerak melewati jarak tertentu dari titik awal, hantu mulai aktif.
+- Setelah aktif, hantu bergerak mengejar pemain secara terus-menerus.
+- Mekanisme ini menjaga ketegangan sepanjang permainan dan memaksa pemain bergerak efisien.
 
-- **Trigger:** Entitas hantu akan muncul secara otomatis setelah pemain menempuh jarak tertentu dari titik awal.
-- **Perilaku:** Hantu akan mengejar posisi pemain secara terus-menerus. Entitas direncanakan menggunakan model 3D kompleks (atau _billboard_ sebagai alternatif efisiensi waktu).
+### Kondisi Menang
 
-### 4. Kondisi Akhir (Win/Lose Condition)
+- Pemain memenangkan permainan jika berhasil mengambil kunci dan mencapai pintu keluar.
 
-- **Menang (Win):** Pemain berhasil menemukan kunci dan mencapai pintu keluar.
-- **Kalah (Lose):** Pemain berhasil ditangkap oleh hantu atau durasi waktu permainan habis.
+### Kondisi Kalah
 
----
+- Pemain kalah jika tertangkap oleh hantu.
+- Pemain juga kalah jika durasi permainan habis.
 
-## 🛠️ Implementasi Teknis (Kebutuhan Tugas)
+## Teknik Grafika dan Interaktif yang Digunakan
 
-Proyek ini mengimplementasikan unsur grafika komputer yang disyaratkan dalam spesifikasi tugas besar:
+Ghost Dimension mengimplementasikan beberapa teknik grafika komputer dan interaksi dasar yang relevan dengan tugas:
 
-- **Primitif Drawing:** Digunakan untuk membangun aset dasar seperti dinding, lantai, dan objek item.
-- **Translasi & Rotasi:** Diaplikasikan pada pergerakan pemain (kamera), rotasi koin yang berputar, serta pergerakan hantu.
-- **Proyeksi & Animasi:** Menggunakan proyeksi perspektif untuk dunia 3D dan ortografis untuk HUD/UI, serta animasi _flickering_ cahaya obor.
-- **Kamera, Depth, & Lighting:** Implementasi kamera _First-Person_ menggunakan `gluLookAt`, pengaktifan `GL_DEPTH_TEST`, serta penggunaan _Spotlight_ (senter) dan _Point Light_ (obor).
-- **Tekstur & Bayangan:** Penerapan _texture mapping_ pada dinding (batu/lumut) dan lantai, serta implementasi bayangan sederhana untuk kedalaman visual.
-- **Interaksi Antar Objek:** Sistem deteksi tabrakan (_collision detection_) antara pemain dengan dinding, serta trigger pengambilan koin dan kunci.
+- **Primitif Drawing**: digunakan untuk membangun dinding, lantai, coin, key, ghost, dan elemen UI sederhana.
+- **Translasi dan Rotasi**: dipakai untuk pergerakan kamera, animasi koin, animasi key, pergerakan hantu, dan orientasi objek di dunia 3D.
+- **Animasi**: coin dibuat berputar dan mengambang, torch dibuat flicker, dan hantu bergerak mengejar pemain.
+- **Proyeksi Perspektif dan Ortografis**: perspektif dipakai untuk dunia 3D, sedangkan ortografis dipakai untuk HUD dan minimap.
+- **Kamera First-Person**: menggunakan `gluLookAt` untuk memberi pengalaman pandang mata pemain.
+- **Depth Testing**: menjaga urutan render objek agar tampak realistis.
+- **Lighting**: menggunakan spotlight untuk senter pemain dan point light / obor untuk pencahayaan lingkungan.
+- **Texture Mapping**: diterapkan pada dinding dan lantai agar lingkungan terlihat lebih hidup.
+- **Collision Detection**: digunakan untuk membatasi pergerakan pemain terhadap dinding dan untuk deteksi pengambilan item.
+- **Trigger-Based Gameplay**: hantu aktif berdasarkan jarak pemain dari titik awal.
 
----
+## Struktur Proyek
 
-## 📂 Struktur Proyek
+Struktur folder proyek disusun sebagai berikut:
 
-Proyek diatur dalam struktur folder berikut untuk memudahkan pengerjaan paralel:
+- `include/`: file header untuk Camera, Config, Entity, Environment, Coin, Key, dan Ghost.
+- `src/`: source code utama proyek.
+- `src/entity/`: implementasi entitas seperti coin, key, dan ghost.
+- `src/environment/`: implementasi environment, pencahayaan, minimap, dan elemen pendukung dunia.
+- `build/`: file hasil build sementara.
+- `obj/`: file objek hasil kompilasi.
+- `README.md`: dokumentasi proyek.
 
-- `/assets`: Menyimpan file gambar tekstur (.bmp/.png).
-- `/include`: File header (.h) untuk modul Kamera, Environment, dan Entity.
-- `/src`: Source code utama (.cpp) termasuk `main.cpp` sebagai _entry point_.
+## Rincian Peran Modul
 
----
+- `main.cpp`: titik masuk program dan pengendali loop utama.
+- `Camera.cpp`: mengatur kamera first-person dan HUD.
+- `Entity.cpp`: mengelola inisialisasi item, status permainan, pickup, dan kondisi menang/kalah.
+- `Environment.cpp`: mengatur dinding, lantai, obor, fog, dan elemen visual lingkungan.
+- `Coin.cpp`: menggambar dan mengatur perilaku koin.
+- `Key.cpp`: menggambar dan mengatur perilaku kunci.
+- `Ghost.cpp`: menggambar dan mengatur perilaku hantu.
+- `Config.cpp`: konfigurasi dasar dan data maze.
 
-## 📺 Format Luaran & Pengumpulan
+## Output yang Diharapkan
 
-Sesuai dengan ketentuan praktikum, hasil akhir proyek mencakup:
+Sesuai kebutuhan pengumpulan tugas, hasil akhir proyek mencakup:
 
-1. **Source Code:** Diunggah ke repositori GitHub tim.
-2. **Video Presentasi:** Demonstrasi game di YouTube dengan format judul: `GTI [Nama Lab] [Judul Project] 2026`.
-3. **Laporan Resmi:** Dokumen penyelesaian menggunakan format baku asisten praktikum yang melampirkan link GitHub dan YouTube.
+1. Source code lengkap yang diunggah ke repositori tim.
+2. Video demonstrasi permainan.
+3. Laporan resmi yang menjelaskan konsep, implementasi, dan hasil pengujian.
