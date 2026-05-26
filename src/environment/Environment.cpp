@@ -9,9 +9,9 @@
 
 #include <GL/glut.h>
 #include <cmath>
-#include "../include/Config.h"
-#include "../include/Environment.h"
-#include "../include/Entity.h"  
+#include "../../include/Config.h"
+#include "../../include/Environment.h"
+#include "../../include/Entity.h"  
 
 GLuint g_texWall  = 0;
 GLuint g_texFloor = 0;
@@ -144,9 +144,6 @@ void drawTorch(float x, float y, float z, int id) {
     float dx=camX-x, dz=camZ-z;
     float dist=sqrtf(dx*dx+dz*dz);
 
-    if (dist < 6.0f) glEnable(lid);
-    else { glDisable(lid); return; }
-
     // Occlusion check tetap ada
     const float S=2.0f;
     float occlude=1.0f;
@@ -158,6 +155,13 @@ void drawTorch(float x, float y, float z, int id) {
         if (cj>=0&&cj<MAZE_HEIGHT&&ci>=0&&ci<MAZE_WIDTH&&mazeMatrix[cj][ci]==1)
             { occlude=0.04f; break; }
     }
+
+    if (dist > 3.4f || occlude < 0.25f) {
+        glDisable(lid);
+        return;
+    }
+
+    glEnable(lid);
 
     GLfloat lPos[]  = {x,y+0.22f,z,1.0f};
     GLfloat lDiff[] = {0.8f*f*occlude,0.3f*f*occlude,0.05f*f*occlude,1.0f};

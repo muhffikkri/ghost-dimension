@@ -12,6 +12,8 @@ struct Coin {
     float x, y;
     bool  aktif;
     float spinAngle;
+   float floatOffset;
+   float animSeed;
 };
 
 /* --- Key --- */
@@ -48,7 +50,7 @@ struct Ghost {
    Fungsi-fungsi Coin (Coin.cpp)
    ---------------------------------------------------------------- */
 void drawCoinDemo(float rotX, float rotY, float rotZ);
-void drawCoinGame(float px, float py, float spinAngle);
+void drawCoinGame(float px, float py, float floatOffset, float spinAngle);
 void initCoins(Coin coins[], int& numCoins,
                const char map[][MAZE_WIDTH], int mapW, int mapH, float tile);
 void updateCoins(Coin coins[], int numCoins, float dt);

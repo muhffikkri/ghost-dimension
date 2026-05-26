@@ -2,7 +2,7 @@
 // Key.cpp
 // ============================================================
 
-#include "../include/Key.h"
+#include "../../include/Key.h"
 #include <math.h>
 
 static void drawKeyShape() {
@@ -76,9 +76,9 @@ void drawKeyDemo(float rotX, float rotY, float rotZ) {
 
 void drawKeyGame(float px, float py, float floatOffset, float spinAngle) {
     glPushMatrix();
-        glTranslatef(px, 0.55f + floatOffset, py);
+        glTranslatef(px, 1.05f + floatOffset, py);
         glRotatef(spinAngle, 0, 1, 0);
-        glScalef(0.38f, 0.38f, 0.38f);
+        glScalef(0.40f, 0.40f, 0.40f);
         drawKeyShape();
     glPopMatrix();
 }
@@ -106,7 +106,7 @@ void updateKey(Key& k, float dt) {
     if (!k.aktif) return;
 
     k.floatTime   += dt;
-    k.floatOffset  = 0.25f * sinf(k.floatTime * 2.0f);
+    k.floatOffset  = 0.20f * sinf(k.floatTime * 2.1f);
     k.spinAngle   += 45.0f * dt;
     if (k.spinAngle >= 360.0f)
         k.spinAngle -= 360.0f;

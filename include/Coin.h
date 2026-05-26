@@ -14,6 +14,8 @@ struct Coin {
     float x, y;       // posisi dunia (game)
     bool  aktif;       // masih ada atau sudah dipungut
     float spinAngle;   // sudut rotasi animasi (derajat)
+    float floatOffset; // offset naik-turun animasi
+    float animSeed;    // seed unik supaya tiap coin beda
 };
 
 
@@ -23,7 +25,7 @@ struct Coin {
 void drawCoinDemo(float rotX, float rotY, float rotZ);
 
 // Untuk GAME: gambar koin di posisi (px, py) dengan animasi spin
-void drawCoinGame(float px, float py, float spinAngle);
+void drawCoinGame(float px, float py, float floatOffset, float spinAngle);
 
 // ----- Fungsi Game -----
 

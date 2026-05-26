@@ -185,7 +185,7 @@ void updateItems() {
 
     for (int i = 0; i < g_numCoins; i++)
         if (g_coins_arr[i].aktif)
-            drawCoinGame(g_coins_arr[i].x, g_coins_arr[i].y, g_coins_arr[i].spinAngle);
+            drawCoinGame(g_coins_arr[i].x, g_coins_arr[i].y, g_coins_arr[i].floatOffset, g_coins_arr[i].spinAngle);
 
     if (g_key.aktif)
         drawKeyGame(g_key.x, g_key.y, g_key.floatOffset, g_key.spinAngle);

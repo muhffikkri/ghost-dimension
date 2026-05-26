@@ -2,7 +2,9 @@
 // Coin.cpp
 // ============================================================
 
-#include "../include/Coin.h"
+#include "../../include/Coin.h"
+#include <math.h>
+#include <time.h>
 
 static void drawCoinShape() {
     GLUquadric* q = gluNewQuadric();
@@ -43,9 +45,9 @@ void drawCoinDemo(float rotX, float rotY, float rotZ) {
     glPopMatrix();
 }
 
-void drawCoinGame(float px, float py, float spinAngle) {
+void drawCoinGame(float px, float py, float floatOffset, float spinAngle) {
     glPushMatrix();
-        glTranslatef(px, 0.5f, py);
+        glTranslatef(px, 0.95f + floatOffset, py);
         glRotatef(spinAngle, 0,1,0);
         glRotatef(90,1,0,0);
         glTranslatef(0,0,-0.07f);
@@ -57,22 +59,27 @@ void drawCoinGame(float px, float py, float spinAngle) {
 void initCoins(Coin coins[], int& numCoins,
                const char map[][MAZE_WIDTH], int mapW, int mapH, float tile) {
     numCoins = 0;
+    float baseSeed = (float)(time(NULL) % 1000);
     for (int row = 0; row < mapH && numCoins < MAX_COINS; row++)
         for (int col = 0; col < mapW && numCoins < MAX_COINS; col++)
             if (map[row][col] == 'C') {
                 coins[numCoins].x         = (col + 0.5f) * tile;
                 coins[numCoins].y         = (row + 0.5f) * tile;
                 coins[numCoins].aktif     = true;
+                coins[numCoins].floatOffset = 0.0f;
+                coins[numCoins].animSeed  = baseSeed + (float)(row * 17 + col * 11) * 0.37f;
                 coins[numCoins].spinAngle = 0.0f;
                 numCoins++;
             }
 }
 
 void updateCoins(Coin coins[], int numCoins, float dt) {
+    float now = (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     for (int i = 0; i < numCoins; i++)
         if (coins[i].aktif) {
-            coins[i].spinAngle += 90.0f * dt;
-            if (coins[i].spinAngle >= 360.0f) coins[i].spinAngle -= 360.0f;
+            float phase = now * 1.9f + coins[i].animSeed;
+            coins[i].floatOffset = 0.18f * sinf(phase * 2.1f);
+            coins[i].spinAngle   = fmodf((now * (140.0f + fmodf(coins[i].animSeed, 40.0f))) + coins[i].animSeed * 57.0f, 360.0f);
         }
 }
 
