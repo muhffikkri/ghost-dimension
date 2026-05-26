@@ -76,9 +76,11 @@ void drawKeyDemo(float rotX, float rotY, float rotZ) {
 
 void drawKeyGame(float px, float py, float floatOffset, float spinAngle) {
     glPushMatrix();
-        glTranslatef(px, 1.05f + floatOffset, py);
-        glRotatef(spinAngle, 0, 1, 0);
-        glScalef(0.40f, 0.40f, 0.40f);
+        // glTranslatef(px, 0.65f + floatOffset, py);
+        glTranslatef(px, 0.65f, py);
+        glRotatef(floatOffset, 0.5f, 0.5f, 0.5f);
+        // glRotatef(15.0f, 0.0f, 0.0f, 1.0f);
+        glScalef(0.45f, 0.45f, 0.45f);
         drawKeyShape();
     glPopMatrix();
 }
@@ -105,9 +107,12 @@ void initKey(Key& k, const char map[][MAZE_WIDTH], int mapW, int mapH, float til
 void updateKey(Key& k, float dt) {
     if (!k.aktif) return;
 
-    k.floatTime   += dt;
+    // k.floatTime   += 2.0f * dt;
     k.floatOffset  = 0.20f * sinf(k.floatTime * 2.1f);
-    k.spinAngle   += 45.0f * dt;
-    if (k.spinAngle >= 360.0f)
-        k.spinAngle -= 360.0f;
+    // if (dt > 0.05f)
+    //     dt = 0.05f;
+    // k.floatOffset = 0.22f * sinf(k.floatTime * 1.8f);
+    k.spinAngle   += 0.1f * sinf(dt);
+    // if (k.spinAngle >= 1.0f)
+    //     k.spinAngle -= 0.1f;
 }

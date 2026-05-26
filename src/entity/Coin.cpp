@@ -48,8 +48,8 @@ void drawCoinDemo(float rotX, float rotY, float rotZ) {
 void drawCoinGame(float px, float py, float floatOffset, float spinAngle) {
     glPushMatrix();
         glTranslatef(px, 0.95f + floatOffset, py);
-        glRotatef(spinAngle, 0,1,0);
-        glRotatef(90,1,0,0);
+        glRotatef(spinAngle, 0.0f, 1.0f, 0.0f);
+        glRotatef(90.0f, 0.0f,1.0f,0.0f);
         glTranslatef(0,0,-0.07f);
         drawCoinShape();
     glPopMatrix();
@@ -77,7 +77,7 @@ void updateCoins(Coin coins[], int numCoins, float dt) {
     float now = (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
     for (int i = 0; i < numCoins; i++)
         if (coins[i].aktif) {
-            float phase = now * 1.9f + coins[i].animSeed;
+            float phase = now * 1.5f + coins[i].animSeed;
             coins[i].floatOffset = 0.18f * sinf(phase * 2.1f);
             coins[i].spinAngle   = fmodf((now * (140.0f + fmodf(coins[i].animSeed, 40.0f))) + coins[i].animSeed * 57.0f, 360.0f);
         }
