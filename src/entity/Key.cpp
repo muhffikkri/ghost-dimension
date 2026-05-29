@@ -104,15 +104,29 @@ void initKey(Key& k, const char map[][MAZE_WIDTH], int mapW, int mapH, float til
 }
 
 // kunci kayak gerak gitu lah
-void updateKey(Key& k, float dt) {
-    if (!k.aktif) return;
+//void updateKey(Key& k, float dt) {
+//    if (!k.aktif) return;
 
     // k.floatTime   += 2.0f * dt;
-    k.floatOffset  = 0.20f * sinf(k.floatTime * 2.1f);
+//    k.floatOffset  = 0.20f * sinf(k.floatTime * 2.1f);
     // if (dt > 0.05f)
     //     dt = 0.05f;
     // k.floatOffset = 0.22f * sinf(k.floatTime * 1.8f);
-    k.spinAngle   += 0.1f * sinf(dt);
+//    k.spinAngle   += 0.1f * sinf(dt);
     // if (k.spinAngle >= 1.0f)
     //     k.spinAngle -= 0.1f;
+//}
+
+// kunci kayak gerak gitu lah
+void updateKey(Key& k, float dt) {
+    if (!k.aktif) return;
+
+    float now = (float)glutGet(GLUT_ELAPSED_TIME) / 1000.0f;
+    float phase = now * 1.5f + k.x * 0.1f + k.y * 0.05f;
+    
+    // Float offset untuk animasi naik-turun
+    k.floatOffset = 0.20f * sinf(phase * 2.1f);
+    
+    // Spin angle untuk rotasi
+    k.spinAngle = fmodf(now * 100.0f, 360.0f);
 }
