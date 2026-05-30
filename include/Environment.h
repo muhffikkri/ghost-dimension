@@ -18,7 +18,6 @@ void genTextures();
 void initEnvironment();
 void renderEnvironment();
 void setupFlashlight();
-void setupFog();
 void drawMinimap();
 void drawTorch(float x, float y, float z, int id);
 void drawWallCube(float wx, float wz, float S, float WH);

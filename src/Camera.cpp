@@ -53,7 +53,6 @@ static void begin2D() {
     glPushMatrix(); glLoadIdentity();
     glDisable(GL_DEPTH_TEST);
     glDisable(GL_LIGHTING);
-    glDisable(GL_FOG);
 }
 
 static void end2D() {

@@ -3,7 +3,7 @@
     - Dinding bata + lantai ubin bertekstur
     - GL_LIGHT0: spotlight senter (cone dari kamera)
     - GL_LIGHT1-6: obor merah flicker di dinding
-    - Fog tipis + volumetric cone visual
+    - Volumetric cone visual
     - Minimap HUD kanan atas
 */
 
@@ -298,15 +298,6 @@ void drawShadows() {
     glDisable(GL_BLEND); glEnable(GL_LIGHTING);
 }
 
-void setupFog() {
-    GLfloat fc[]={0.1f,0.1f,0.1f,1};
-    glEnable(GL_FOG);
-    glFogi(GL_FOG_MODE,GL_LINEAR);
-    glFogfv(GL_FOG_COLOR,fc);
-    glFogf(GL_FOG_START,5.0f);
-    glFogf(GL_FOG_END,25.0f);
-}
-
 void initEnvironment() {
     genTextures();
     glEnable(GL_DEPTH_TEST); glDepthFunc(GL_LEQUAL);
@@ -355,8 +346,7 @@ void drawMinimap() {
     const int ORIG_X=winW-MMAP_W-MARGIN, ORIG_Y=winH-MMAP_H-MARGIN;
     const float S=2.0f;
 
-    glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D);
-    glDisable(GL_FOG); glDisable(GL_DEPTH_TEST);
+    glDisable(GL_LIGHTING); glDisable(GL_TEXTURE_2D); glDisable(GL_DEPTH_TEST);
 
     glMatrixMode(GL_PROJECTION);
     glPushMatrix(); glLoadIdentity();

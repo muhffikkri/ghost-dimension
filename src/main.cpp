@@ -79,7 +79,6 @@ static void displayGame() {
     lookZ = playerCam.z + sinf(playerCam.angle) * cosf(playerCam.pitch);
 
     setupFlashlight();
-    setupFog();
     renderEnvironment();
 
     // FIXED: sync posisi dulu
@@ -115,7 +114,7 @@ static void displayEnvDemo() {
     camX=g_envX; camY=1.6f; camZ=g_envZ;
     lookX=g_envX+cosf(rad); lookY=1.6f; lookZ=g_envZ+sinf(rad);
     gluLookAt(camX,camY,camZ,lookX,lookY,lookZ,0,1,0);
-    setupFlashlight(); setupFog(); renderEnvironment();
+    setupFlashlight(); renderEnvironment();
     drawMinimap();
     // drawModeBanner("MODE: ENV DEMO  |  W/S/A/D move  |  F1/F2/F3=Mode");
 }

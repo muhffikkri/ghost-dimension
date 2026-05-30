@@ -46,7 +46,7 @@ Ghost Dimension mengimplementasikan beberapa teknik grafika komputer dan interak
 
 - **Primitif Drawing**: digunakan untuk membangun dinding, lantai, coin, key, ghost, dan elemen UI sederhana.
 - **Translasi dan Rotasi**: dipakai untuk pergerakan kamera, animasi koin, animasi key, pergerakan hantu, dan orientasi objek di dunia 3D.
-- **Animasi**: coin dibuat berputar dan mengambang, torch dibuat flicker, dan hantu bergerak mengejar pemain.
+- **Animasi**: coin dibuat berputar dan mengambang, torch dibuat flicker, dan hantu bergerak mengejar pemain dan head bobbing pada pemain.
 - **Proyeksi Perspektif dan Ortografis**: perspektif dipakai untuk dunia 3D, sedangkan ortografis dipakai untuk HUD dan minimap.
 - **Kamera First-Person**: menggunakan `gluLookAt` untuk memberi pengalaman pandang mata pemain.
 - **Depth Testing**: menjaga urutan render objek agar tampak realistis.
@@ -72,7 +72,7 @@ Struktur folder proyek disusun sebagai berikut:
 - `main.cpp`: titik masuk program dan pengendali loop utama.
 - `Camera.cpp`: mengatur kamera first-person dan HUD.
 - `Entity.cpp`: mengelola inisialisasi item, status permainan, pickup, dan kondisi menang/kalah.
-- `Environment.cpp`: mengatur dinding, lantai, obor, fog, dan elemen visual lingkungan.
+- `Environment.cpp`: mengatur dinding, lantai, obor, dan elemen visual lingkungan.
 - `Coin.cpp`: menggambar dan mengatur perilaku koin.
 - `Key.cpp`: menggambar dan mengatur perilaku kunci.
 - `Ghost.cpp`: menggambar dan mengatur perilaku hantu.
